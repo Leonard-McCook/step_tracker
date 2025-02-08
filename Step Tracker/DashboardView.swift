@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DashboardView.swift
 //  Step Tracker
 //
 //  Created by Leonard McCook-Carr on 5/10/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum HealthMetricContest: CaseIterable, Identifiable {
+enum HealthMetricContext: CaseIterable, Identifiable {
     case steps, weight
     var id: Self { self }
     
@@ -21,9 +21,9 @@ enum HealthMetricContest: CaseIterable, Identifiable {
     }
 }
 
-struct ContentView: View {
+struct DashboardView: View {
     
-    @State private var selectedStat: HealthMetricContest = .steps
+    @State private var selectedStat: HealthMetricContext = .steps
     var isSteps: Bool { selectedStat == .steps }
     
     var body: some View {
@@ -32,7 +32,7 @@ struct ContentView: View {
                 VStack(spacing: 20) {
                     
                     Picker("Selected Stat", selection: $selectedStat) {
-                        ForEach(HealthMetricContest.allCases) { metric in
+                        ForEach(HealthMetricContext.allCases) { metric in
                             Text(metric.title)
                         }
                     }
@@ -88,8 +88,8 @@ struct ContentView: View {
             }
             .padding()
             .navigationTitle("Dashboard")
-            .navigationDestination(for: HealthMetricContest.self) { metric in
-                Text(metric.title)
+            .navigationDestination(for: HealthMetricContext.self) { metric in
+                HealthDataListView(metric: metric)
             }
         }
         .tint(isSteps ? .pink : .indigo)
@@ -97,5 +97,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    DashboardView()
 }
